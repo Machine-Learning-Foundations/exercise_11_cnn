@@ -45,9 +45,6 @@ $$
 
 You can test the function with `nox -s test` by importing `my_conv` in `tests/test_conv.py` and changing `my_conv_direct` to `my_conv` in the test function. Make sure that `src/waldo.py` now uses `my_conv` for convolution and run the script again.
 
-Solution:
-
-![cross_correlation](./figures/waldo_corr.png)
 
 
 ### Task 2 - MNIST - Digit recognition
