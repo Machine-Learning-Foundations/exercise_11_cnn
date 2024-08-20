@@ -58,7 +58,3 @@ Open `src/mnist.py` and implement MNIST digit recognition with `CNN` in `torch`
 
 - *Reuse* your code from yesterday.
 - Reuse yesterday's `Net` class, add convolutional layers and pooling. `torch.nn.Conv2d` and `torch.nn.MaxPool2d` will help you.
-
-Solution:
-
-![train mnist](./figures/mnist_result.png)
