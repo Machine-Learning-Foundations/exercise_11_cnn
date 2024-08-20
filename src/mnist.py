@@ -20,15 +20,9 @@ class Net(th.nn.Module):
         https://en.wikipedia.org/wiki/LeNet#/media/File:LeNet_architecture.png
         """
         super().__init__()
-        self.layer1 = th.nn.Conv2d(1, 16, 3)
-        self.pool1 = th.nn.MaxPool2d(2, stride=2)
-        self.layer2 = th.nn.Conv2d(16, 32, 3)
-        self.pool2 = th.nn.MaxPool2d(2, stride=2)
-        self.layer3 = th.nn.Conv2d(32, 64, 3)
-        self.layer4 = th.nn.Linear(576, 128)
-        self.layer5 = th.nn.Linear(128, 10)
-        self.relu = th.nn.ReLU()
-        self.sigmoid = th.nn.Sigmoid()
+        # TODO: Set up the network's elements.
+        # Use nn.Conv2d, nn.MaxPool2d, nn.ReLU, nn.Linear as well as nn.Sigmoid.
+
 
     def forward(self, x: th.Tensor) -> th.Tensor:
         """Network forward pass.
@@ -39,19 +33,15 @@ class Net(th.nn.Module):
         Returns:
             th.Tensor: Network predictions of shape (BS, 10).
         """
-        x = self.relu(self.layer1(x))
-        x = self.pool1(x)
-        x = self.relu(self.layer2(x))
-        x = self.pool2(x)
-        x = self.relu(self.layer3(x))
-        x = x.reshape(x.shape[0], -1)
-        x = self.layer4(x)
-        x = self.layer5(x)
-        return self.sigmoid(x)
+        # TODO: Implement the forward pass.
+        return th.tensor(0.)
 
 
 def cross_entropy(label: th.Tensor, out: th.Tensor) -> th.Tensor:
-    """Cross Entropy loss.
+    """Compute the cross entropy of one-hot encoded labels and the network output.
+
+    Implement cross_entropy:
+    1/n Sum[( -label * log(out) - (1 - label) * log(1 - out) )]
 
     Args:
         label (th.Tensor): Ground truth labels.
@@ -60,10 +50,8 @@ def cross_entropy(label: th.Tensor, out: th.Tensor) -> th.Tensor:
     Returns:
         th.Tensor: Cross-Entropy loss.
     """
-    left = label * th.log(out + 1e-12)
-    right = (1 - label) * th.log(1 - out + 1e-12)
-    sum_ = th.sum(left + right)
-    return -sum_ / np.prod(label.size())
+    # TODO: Compute the cross entropy and return the correct result instead of 0.
+    return th.tensor(0.)
 
 
 def sgd_step(model: Net, learning_rate: float) -> Net:
@@ -77,7 +65,8 @@ def sgd_step(model: Net, learning_rate: float) -> Net:
         Net: SGD applied model.
     """
     for param in model.parameters():
-        param.data = param.data - learning_rate * param.grad.data
+        # TODO: Implement me
+        pass
     return model
 
 
@@ -93,12 +82,9 @@ def get_acc(model: Net, dataloader: th.utils.data.DataLoader) -> float:
     """
     acc = []
     for imgs, labels in dataloader:
-        imgs, labels = imgs.to(DEVICE), labels.to(DEVICE)
-        preds = model(imgs)
-        rec = th.argmax(preds, dim=1)
-        batch_acc = th.sum((rec == labels).type(th.float32)) / len(labels)
-        acc.append(batch_acc.cpu())
-    return float(sum(acc) / len(acc))
+        # TODO: Implement me.
+        pass
+    return th.tensor(0.)
 
 
 def zero_grad(model: Net) -> Net:
@@ -111,7 +97,8 @@ def zero_grad(model: Net) -> Net:
         Net: Network with zeroed gradients.
     """
     for param in model.parameters():
-        param.grad.data.zero_()
+        # TODO: Implement me.
+        pass
     return model
 
 
@@ -168,6 +155,8 @@ if __name__ == "__main__":
             for imgs, labels in tqdm(train_loader):
                 imgs, labels = imgs.to(DEVICE), labels.to(DEVICE)
 
+                # TODO: Train the model.
+                # Use `loss.backward()`, `sgd_step` and `zero_grad`.
                 preds = model(imgs)
                 loss_val = cross_entropy(
                     label=th.nn.functional.one_hot(labels, num_classes=10), out=preds
