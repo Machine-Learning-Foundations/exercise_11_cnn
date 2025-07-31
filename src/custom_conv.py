@@ -8,8 +8,8 @@ def get_indices(image: torch.Tensor, kernel: torch.Tensor) -> tuple:
     """Get the indices to set up pixel vectors for convolution by matrix-multiplication.
 
     Args:
-        image (jnp.ndarray): The input image of shape [height, width.]
-        kernel (jnp.ndarray): A 2d-convolution kernel.
+        image (torch.Tensor): The input image of shape [height, width].
+        kernel (torch.Tensor): A 2d-convolution kernel.
 
     Returns:
         tuple: An integer array with the indices, the number of rows in the result,
