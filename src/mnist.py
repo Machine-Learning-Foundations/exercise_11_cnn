@@ -157,15 +157,7 @@ if __name__ == "__main__":
 
                 # TODO: Train the model.
                 # Use `loss.backward()`, `sgd_step` and `zero_grad`.
-                preds = model(imgs)
-                loss_val = cross_entropy(
-                    label=th.nn.functional.one_hot(labels, num_classes=10), out=preds
-                )
-                loss_val.backward()
 
-                model = sgd_step(model, learning_rate=args.lr)
-                model = zero_grad(model)
-                epoch_loss.append(loss_val.item())
             print(f"Loss: {sum(epoch_loss)/len(epoch_loss):2.4f}")
 
             train_acc = get_acc(model=model, dataloader=train_loader)
@@ -176,7 +168,7 @@ if __name__ == "__main__":
         test_acc = get_acc(model=model, dataloader=test_loader)
         train_accs.append(per_epoch_train_acc)
         val_accs.append(per_epoch_val_acc)
-        test_accs.append(train_acc)
+        test_accs.append(test_acc)
     train_accs_np = np.stack(train_accs, axis=0)
     val_accs_np = np.stack(val_accs, axis=0)
     test_accs_np = np.stack(test_accs)
