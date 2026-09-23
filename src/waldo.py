@@ -26,15 +26,18 @@ if __name__ == "__main__":
     plt.imshow(problem_image)
     plt.show()
 
+    # Normalizing images such that they have mean 0 and variance 1.
     mean = np.mean(problem_image)
     std = np.std(problem_image)
     problem_image = (problem_image - mean) / std
     waldo = (waldo - mean) / std
 
     # Too slow does not work.
+    # 1.1.2 TODO: Use your own convolution function to find waldo.
     # conv_res = my_conv_direct(problem_image, waldo)
 
     # Built in function very fast.
+    # 1.1.3 TODO: Use scipy's correlate2d function to find waldo.
     # conv_res = correlate2d(problem_image, waldo, mode="valid", boundary="fill")
 
     # Selfmade ok but too costly in terms of memory.

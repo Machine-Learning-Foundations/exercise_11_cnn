@@ -18,10 +18,10 @@ def get_indices(image: torch.Tensor, kernel: torch.Tensor) -> tuple:
     image_rows, image_cols = image.shape
     kernel_rows, kernel_cols = kernel.shape
 
-    # TODO: Implement me
+    # 1.2 TODO: Implement me
     idx_list = None
     corr_rows = None
-    corr_cols = None 
+    corr_cols = None
     return idx_list, corr_rows, corr_cols
 
 
@@ -45,5 +45,5 @@ def my_conv_direct(image: torch.Tensor, kernel: torch.Tensor) -> torch.Tensor:
     image_rows, image_cols = image.shape
     kernel_rows, kernel_cols = kernel.shape
     corr = []
-    # TODO: Implement direct convolution.
-    return torch.tensor([0.])
+    # 1.1.1 TODO: Implement direct convolution.
+    return torch.tensor([0.0])

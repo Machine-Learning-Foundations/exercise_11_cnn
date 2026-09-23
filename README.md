@@ -1,7 +1,7 @@
 ### Convolutional Neural network Exercise
 
 ### Task 1 - Find Waldo
-In this first task use cross-correlation to find Waldo in the image below:
+In this first task we will use cross-correlation to find Waldo in the image below:
 ![where_is_waldo](./data/waldo/waldo_space.jpg)
 
 [ Image source: https://rare-gallery.com ]
@@ -14,16 +14,18 @@ for an image matrix I and a kernel matrix $K$ of shape $(M \times N)$. To find w
 
 ![waldo](./data/waldo/waldo_small.jpg)
 
+By sliding the waldo-kernel over the image and computing the cross-correlation at each position we can find the position where waldo is located by looking for the maximum value in the resulting matrix.
+
 #### Task 1.1 - Direct convolution
 Navigate to the `src/custom_conv.py` module.
-- Start in `my_conv_direct` and implement the convolution following the equation above. Test your function with vscode tests or `nox -s test`.
-- Go to `src/waldo.py` and make sure that `my_conv_direct` is used for convolution. This script finds waldo in the image using your convolution function. Execute it with `python ./src/waldo.py` in your terminal.
-- If your code passes the pytest but is too slow to find waldo feel free to use `scipy.signal.correlate2d` in `src/waldo.py` instead of your convolution function.
+1. Start in `my_conv_direct` and implement the convolution following the equation above. Test your function with vscode tests or `nox -s test`.
+2. Go to `src/waldo.py` and make sure that `my_conv_direct` is used for convolution. This script finds waldo in the image using your convolution function. Execute it with `python ./src/waldo.py` in your terminal.
+3. If your code passes the pytest but is too slow to find waldo feel free to use `scipy.signal.correlate2d` in `src/waldo.py` instead of your convolution function.
 
 #### Task 1.2 (Optional)
 Navigate to the `src/custom_conv.py` module.
-The function `my_conv` implements a fast version of the convolution operation above using a flattend kernel. We learned about this fast version in the lecture. Have a look at the slides again and then implement `get_indices` to make `my_conv` work. It should return
-- A matrix of indices following the flattend convolution rule from the lecture, e.g. for a $(2\times 2)$ kernel and a $(3\times 3)$ image it should return the index transformation
+The function `my_conv` implements a fast version of the convolution operation above using a flattened kernel. We learned about this fast version in the lecture. Have a look at the slides again and then implement `get_indices` to make `my_conv` work. It should return
+- A matrix of indices following the flattened convolution rule from the lecture, e.g. for a $(2\times 2)$ kernel and a $(3\times 3)$ image it should return the index transformation
 
 $$
    \begin{pmatrix}
@@ -43,6 +45,11 @@ $$
    $$o=(i-k)+1$$
    where $i$ denotes the input size and $k$ the kernel size.
 
+If you need help, follow the hints below:
+- First create a list of starting indices for each row in the output. These are the upper left corners of each kernel application.
+- Then create a list of offsets within the kernel. These are the indices that need to be added to each starting index to get the full set of indices for each kernel application.
+- Finally use broadcasting to add the two lists together and get the final index matrix.
+
 You can test the function with `nox -s test` by importing `my_conv` in `tests/test_conv.py` and changing `my_conv_direct` to `my_conv` in the test function. Make sure that `src/waldo.py` now uses `my_conv` for convolution and run the script again.
 
 
@@ -51,7 +58,7 @@ You can test the function with `nox -s test` by importing `my_conv` in `tests/te
 
 ![mnist](./figures/mnist.png)
 
-Open `src/mnist.py` and implement MNIST digit recognition with `CNN` in `torch`
+Open `src/mnist.py` and implement MNIST digit recognition with `CNN` in `torch`. Go through the TODOs in the file. You will see that a lot of the code is really similar or the same as in yesterday's exercise.
 
 - *Reuse* your code from yesterday.
 - Reuse yesterday's `Net` class, add convolutional layers and pooling. `torch.nn.Conv2d` and `torch.nn.MaxPool2d` will help you.
