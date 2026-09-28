@@ -1,6 +1,7 @@
 """Identify MNIST digits."""
 
 import argparse
+import os
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -23,7 +24,6 @@ class Net(th.nn.Module):
         # TODO: Set up the network's elements.
         # Use nn.Conv2d, nn.MaxPool2d, nn.ReLU, nn.Linear as well as nn.Sigmoid.
 
-
     def forward(self, x: th.Tensor) -> th.Tensor:
         """Network forward pass.
 
@@ -34,14 +34,14 @@ class Net(th.nn.Module):
             th.Tensor: Network predictions of shape (BS, 10).
         """
         # TODO: Implement the forward pass.
-        return th.tensor(0.)
+        return th.tensor(0.0)
 
 
 def cross_entropy(label: th.Tensor, out: th.Tensor) -> th.Tensor:
     """Compute the cross entropy of one-hot encoded labels and the network output.
 
-    Implement cross_entropy:
-    1/n Sum[( -label * log(out) - (1 - label) * log(1 - out) )]
+    1/n Sum[( -label * log(out) - (1 - label) * log(1 - out) )],
+    where n is the total number of entries in `label`, i.e. batch size * classes.
 
     Args:
         label (th.Tensor): Ground truth labels.
@@ -51,7 +51,7 @@ def cross_entropy(label: th.Tensor, out: th.Tensor) -> th.Tensor:
         th.Tensor: Cross-Entropy loss.
     """
     # TODO: Compute the cross entropy and return the correct result instead of 0.
-    return th.tensor(0.)
+    return th.tensor(0.0)
 
 
 def sgd_step(model: Net, learning_rate: float) -> Net:
@@ -65,13 +65,16 @@ def sgd_step(model: Net, learning_rate: float) -> Net:
         Net: SGD applied model.
     """
     for param in model.parameters():
-        # TODO: Implement me
+        # TODO: Implement me.
         pass
     return model
 
 
 def get_acc(model: Net, dataloader: th.utils.data.DataLoader) -> float:
     """Compute accuracy given specific dataloader.
+
+    Gradients are not needed here. Use `th.no_grad()` to avoid building the
+    autograd graph.
 
     Args:
         model (Net): Network objekt.
@@ -84,7 +87,7 @@ def get_acc(model: Net, dataloader: th.utils.data.DataLoader) -> float:
     for imgs, labels in dataloader:
         # TODO: Implement me.
         pass
-    return th.tensor(0.)
+    return 0.0
 
 
 def zero_grad(model: Net) -> Net:
@@ -156,9 +159,12 @@ if __name__ == "__main__":
                 imgs, labels = imgs.to(DEVICE), labels.to(DEVICE)
 
                 # TODO: Train the model.
-                # Use `loss.backward()`, `sgd_step` and `zero_grad`.
-
-            print(f"Loss: {sum(epoch_loss)/len(epoch_loss):2.4f}")
+                # 1. Compute the predictions of the model.
+                # 2. Compute the loss with `cross_entropy`. Encode the labels with
+                #    `th.nn.functional.one_hot(labels, num_classes=10)`.
+                # 3. Use `loss.backward()`, `sgd_step` and `zero_grad`.
+                
+            print(f"Loss: {sum(epoch_loss) / len(epoch_loss):2.4f}")
 
             train_acc = get_acc(model=model, dataloader=train_loader)
             val_acc = get_acc(model=model, dataloader=val_loader)
@@ -166,6 +172,7 @@ if __name__ == "__main__":
             per_epoch_val_acc.append(val_acc)
             print(f"train acc: {train_acc:2.4f}, val acc: {val_acc:2.4f}")
         test_acc = get_acc(model=model, dataloader=test_loader)
+        print(f"test acc: {test_acc:2.4f}")
         train_accs.append(per_epoch_train_acc)
         val_accs.append(per_epoch_val_acc)
         test_accs.append(test_acc)
@@ -202,5 +209,6 @@ if __name__ == "__main__":
         marker="x",
     )
     plt.legend()
+    os.makedirs("./figures", exist_ok=True)
     plt.savefig("./figures/acc.png")
     print("done")

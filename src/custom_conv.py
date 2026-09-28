@@ -18,7 +18,8 @@ def get_indices(image: torch.Tensor, kernel: torch.Tensor) -> tuple:
     image_rows, image_cols = image.shape
     kernel_rows, kernel_cols = kernel.shape
 
-    # 1.2 TODO: Implement me
+    # (Optional) 1.2 TODO: Implement me
+    # Hint: np.ravel_multi_index turns (row, col) index pairs into flat indices.
     idx_list = None
     corr_rows = None
     corr_cols = None
@@ -40,7 +41,15 @@ def my_conv(image: torch.Tensor, kernel: torch.Tensor) -> torch.Tensor:
 def my_conv_direct(image: torch.Tensor, kernel: torch.Tensor) -> torch.Tensor:
     """Evaluate a selfmade convolution function.
 
-    Thus function implements very slow summation in a for loop.
+    This function implements a slow summation in a for loop.
+
+    Args:
+        image (torch.Tensor): The input image of shape [height, width].
+        kernel (torch.Tensor): A 2d-convolution kernel.
+
+    Returns:
+        torch.Tensor: The cross-correlation of shape
+        [height - kernel_rows + 1, width - kernel_cols + 1].
     """
     image_rows, image_cols = image.shape
     kernel_rows, kernel_cols = kernel.shape
